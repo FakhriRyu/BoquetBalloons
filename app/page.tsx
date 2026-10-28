@@ -1,31 +1,29 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import Catalog from "@/components/Catalog";
-import CustomCalculator from "@/components/CustomCalculator";
-import HowToOrder from "@/components/HowToOrder";
-import Testimonials from "@/components/Testimonials";
-import FAQ from "@/components/FAQ";
-import CTA from "@/components/CTA";
-import Footer from "@/components/Footer";
+import AnnouncementHeader from "@/components/AnnouncementHeader";
+import HeroSection from "@/components/HeroSection";
+import OccasionRail from "@/components/OccasionRail";
+import BestSellers from "@/components/BestSellers";
+import PromoBanner from "@/components/PromoBanner";
+import TrustPillars from "@/components/TrustPillars";
+import CustomCta from "@/components/CustomCta";
+import FooterSection from "@/components/FooterSection";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <main className="flex-1 w-full overflow-hidden">
-        <Hero />
-        <Features />
-        <Catalog />
-        <CustomCalculator />
-        <HowToOrder />
-        <Testimonials />
-        <FAQ />
-        <CTA />
+      <AnnouncementHeader />
+      <main className="w-full pt-28 bg-surface">
+        <div className="flex flex-col w-full">
+          <HeroSection />
+          <OccasionRail />
+          <BestSellers />
+          <PromoBanner />
+          <TrustPillars />
+          <CustomCta />
+        </div>
       </main>
-      <Footer />
+      <FooterSection />
       <FloatingWhatsApp />
     </>
   );
