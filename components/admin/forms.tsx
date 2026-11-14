@@ -42,7 +42,7 @@ export function ActionForm({
       <PendingContext.Provider value={pending}>{children}</PendingContext.Provider>
       <div aria-live="polite" className="min-h-0">
         {state.error && <p role="alert" className="mt-3 rounded-xl bg-peach-soft px-3 py-2 text-sm font-bold text-peach-deep">{state.error}</p>}
-        {state.ok && (
+        {state.ok && successText && (
           <p className="mt-3 flex items-center gap-1.5 text-sm font-bold text-leaf-dark">
             <Check className="h-4 w-4" aria-hidden /> {successText}
           </p>

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { CHROME_PETALS, PASTEL_PETALS, RIBBON_COLORS, STEM_COLORS, FLOWER_TYPES, calcTotal } from "../data/builder.ts";
-import { formatK, isLightHex, parseRupiah } from "./format.ts";
+import { formatK, formatRupiahPrecise, isLightHex, parseDecimal, parseRupiah } from "./format.ts";
 
 test("parseRupiah menerima berbagai cara mengetik harga", () => {
   assert.equal(parseRupiah("5000"), 5000);
@@ -38,4 +38,16 @@ test("calcTotal menjumlahkan harga tangkai dan surcharge warna", () => {
   const total = calcTotal({ type, qty: 2, stem: { ...plain, surcharge: 2000 }, petal: { ...plain, surcharge: 500 } });
   assert.equal(total.perStem, type.pricePerStem + 2500);
   assert.equal(total.total, (type.pricePerStem + 2500) * 2);
+});
+
+test("parseDecimal menerima koma dan titik", () => {
+  assert.equal(parseDecimal("1,5"), 1.5);
+  assert.equal(parseDecimal("0.25"), 0.25);
+  assert.equal(parseDecimal(""), null);
+  assert.equal(parseDecimal("dua"), null);
+});
+
+test("formatRupiahPrecise", () => {
+  assert.equal(formatRupiahPrecise(41.666), "Rp 41,67");
+  assert.equal(formatRupiahPrecise(250), "Rp 250");
 });

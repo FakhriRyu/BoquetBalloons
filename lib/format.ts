@@ -28,3 +28,14 @@ export function isLightHex(hex: string): boolean {
   const luminance = 0.2126 * lin((n >> 16) & 255) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255);
   return luminance > 0.65;
 }
+
+/** Rupiah dengan pecahan, untuk harga bahan per satuan: 41.666 -> "Rp 41,67" */
+export const formatRupiahPrecise = (n: number) => `Rp ${n.toLocaleString("id-ID", { maximumFractionDigits: 2 })}`;
+
+/** "1,5" / "1.5" / " 2 " -> angka; null bila bukan angka. */
+export function parseDecimal(input: unknown): number | null {
+  const s = String(input ?? "").trim().replace(",", ".");
+  if (!s) return null;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}

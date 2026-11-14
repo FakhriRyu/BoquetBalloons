@@ -1,8 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-export const inputClass =
-  "w-full min-h-11 rounded-xl border-2 border-sky-soft bg-white px-3 py-2 font-semibold text-brand-deep placeholder:text-brand-dark/50 focus:border-brand focus:outline-none";
+/** Gaya isian tanpa lebar, untuk isian kecil yang lebarnya diatur sendiri. */
+export const inputBase =
+  "min-h-11 rounded-xl border-2 border-sky-soft bg-white px-3 py-2 font-semibold text-brand-deep placeholder:text-brand-dark/50 focus:border-brand focus:outline-none";
+export const inputClass = `w-full ${inputBase}`;
 
 export function PageHeader({ title, description }: { title: string; description?: string }) {
   return (
