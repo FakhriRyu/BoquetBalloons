@@ -9,7 +9,8 @@ export function getWhatsAppNumber(): string {
 }
 
 function wa(message: string) {
-  return `https://wa.me/${getWhatsAppNumber()}?text=${encodeURIComponent(message)}`;
+  // Use api.whatsapp.com directly: the wa.me redirect can corrupt emoji into "?" on some clients.
+  return `https://api.whatsapp.com/send?phone=${getWhatsAppNumber()}&text=${encodeURIComponent(message)}`;
 }
 
 export function createWhatsAppOrderLink(productName: string, price: string): string {
