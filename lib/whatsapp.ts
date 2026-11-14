@@ -27,16 +27,14 @@ export function createWhatsAppBouquetLink(d: {
   petalColor: string;
   stemColor: string;
   ribbon: string;
-  note: string;
   total: string;
   customerName: string;
   address: string;
   instagram?: string;
 }): string {
-  const note = d.note.trim() ? `"${d.note.trim()}"` : "-";
   const ig = (d.instagram ?? "").trim().replace(/^@+/, "");
   const igLine = ig ? `\n📷 *Instagram:* @${ig}` : "";
   return wa(
-    `Halo ${STORE_NAME}! 🌼\n\nSaya sudah rakit bunga balon di website dan mau pesan:\n\n👤 *Nama:* ${d.customerName.trim()}\n📍 *Alamat:* ${d.address.trim()}${igLine}\n\n🌸 *Jenis bunga:* ${d.type}\n🔢 *Jumlah:* ${d.qty} tangkai\n🎨 *Warna kelopak:* ${d.petalColor}\n🌿 *Warna tangkai:* ${d.stemColor}\n🎀 *Pita:* ${d.ribbon}\n📝 *Catatan:* ${note}\n\n💵 *Total:* ${d.total}\n\nMohon info ketersediaan & cara pembayarannya ya. Terima kasih!`
+    `Halo ${STORE_NAME}! 🌼\n\nSaya sudah rakit bunga balon di website dan mau pesan:\n\n👤 *Nama:* ${d.customerName.trim()}\n📍 *Alamat:* ${d.address.trim()}${igLine}\n\n🌸 *Jenis bunga:* ${d.type}\n🔢 *Jumlah:* ${d.qty} tangkai\n🎨 *Warna kelopak:* ${d.petalColor}\n🌿 *Warna tangkai:* ${d.stemColor}\n🎀 *Pita:* ${d.ribbon}\n\n💵 *Total:* ${d.total}\n\nMohon info ketersediaan & cara pembayarannya ya. Terima kasih!`
   );
 }

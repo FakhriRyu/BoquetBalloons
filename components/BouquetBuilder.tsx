@@ -75,7 +75,6 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
   const [petalId, setPetalId] = useState("");
   const [stemId, setStemId] = useState("");
   const [ribbonId, setRibbonId] = useState("");
-  const [note, setNote] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [instagram, setInstagram] = useState("");
@@ -97,7 +96,6 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
     petalColor: petal.name,
     stemColor: stem.name,
     ribbon: `Warna ${ribbon.name}`,
-    note,
     total: formatRupiah(price.total),
     customerName: name,
     address,
@@ -208,20 +206,7 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
               <Swatches label="Warna pita" options={ribbonColors} value={ribbon.id} onChange={setRibbonId} />
             </Step>
 
-            <Step n={6} title="Catatan">
-              <label className="block">
-                <span className="sr-only">Catatan atau tulisan ucapan</span>
-                <input
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  maxLength={80}
-                  placeholder="Catatan (opsional): nama penerima, ucapan, tanggal ambil"
-                  className="w-full rounded-2xl border-2 border-sky-soft bg-cream-light px-4 py-3 font-semibold text-brand-deep placeholder:text-brand-dark/60 focus:border-brand focus:outline-none"
-                />
-              </label>
-            </Step>
-
-            <Step n={7} title="Data pemesan">
+            <Step n={6} title="Data pemesan">
               <div id="data-pemesan" className="scroll-mt-40 space-y-3">
                 <label className="block">
                   <span className="mb-1 block text-sm font-bold text-brand-deep">Nama <span className="text-peach-deep">*</span></span>
