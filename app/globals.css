@@ -53,6 +53,22 @@
       linear-gradient(rgba(124, 187, 180, 0.5) 50%, transparent 50%);
   }
 
+  /* Beige gingham, like the "How to Order" story design */
+  .bg-gingham-cream {
+    background-color: #fbf8ef;
+    background-image:
+      linear-gradient(90deg, rgba(221, 207, 165, 0.42) 50%, transparent 50%),
+      linear-gradient(rgba(221, 207, 165, 0.42) 50%, transparent 50%);
+    background-size: 64px 64px;
+  }
+
+  /* Cream letters with a soft blue outline ("HOW TO") */
+  .hto-outline {
+    color: #f4efe3;
+    -webkit-text-stroke: 6px #a8c8e6;
+    paint-order: stroke fill;
+  }
+
   /* White polaroid card */
   .polaroid {
     @apply bg-cream-light rounded-[2rem] shadow-polaroid border-4 border-white;
