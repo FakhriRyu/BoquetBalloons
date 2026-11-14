@@ -29,7 +29,7 @@ export const MIN_QTY = 1;
 export const MAX_QTY = 12;
 
 export const FLOWER_TYPES: FlowerType[] = [
-  { id: "simple", name: "Kelopak Simple", desc: "Manis & ringan", pricePerStem: 15000, chrome: false },
+  { id: "simple", name: "Kelopak Simple", desc: "Manis & ringan", pricePerStem: 5000, chrome: false },
   { id: "curly", name: "Kelopak Keriting", desc: "Lebih tebal & penuh", pricePerStem: 20000, chrome: false },
   { id: "chrome", name: "Chrome Premium", desc: "Kilau metalik mewah", pricePerStem: 30000, chrome: true },
 ];

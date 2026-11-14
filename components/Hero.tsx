@@ -14,7 +14,7 @@ export default function Hero() {
             Balon
           </h1>
           <p className="mx-auto mt-6 max-w-md rounded-2xl bg-white/90 p-4 text-lg font-semibold text-brand-deep md:mx-0">
-            Bunga dari balon yang dibuat handmade. Cantik buat kado, dekor, atau sekadar hadiah kecil. Mulai dari Rp 15.000 per tangkai.
+            Bunga dari balon yang dibuat handmade. Cantik buat kado, dekor, atau sekadar hadiah kecil. Mulai dari Rp 5.000 per tangkai.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row md:justify-start sm:justify-center">
             <a href="#rakit" className="btn-peach">Rakit Bunga-mu</a>

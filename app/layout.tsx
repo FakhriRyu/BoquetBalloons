@@ -18,7 +18,7 @@ const nunito = Nunito({
 
 const TITLE = "Ada Balon Bengkulu | Buket Bunga Balon Handmade";
 const DESCRIPTION =
-  "Buket bunga dari balon handmade di Bengkulu. Pilih jenis bunga, jumlah, warna kelopak & tangkai, lihat harganya langsung, lalu pesan via WhatsApp. Mulai Rp 15.000.";
+  "Buket bunga dari balon handmade di Bengkulu. Pilih jenis bunga, jumlah, warna kelopak & tangkai, lihat harganya langsung, lalu pesan via WhatsApp. Mulai Rp 5.000.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://buketbalon.vercel.app"),
