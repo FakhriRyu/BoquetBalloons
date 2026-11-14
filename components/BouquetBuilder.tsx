@@ -11,7 +11,7 @@ import {
   MAX_QTY,
   MIN_QTY,
   PASTEL_PETALS,
-  RIBBONS,
+  RIBBON_COLORS,
   STEM_COLORS,
   calcTotal,
 } from "@/data/builder";
@@ -68,15 +68,15 @@ export default function BouquetBuilder() {
   const [qty, setQty] = useState(5);
   const [petalId, setPetalId] = useState(PASTEL_PETALS[0].id);
   const [stemId, setStemId] = useState(STEM_COLORS[0].id);
-  const [ribbonId, setRibbonId] = useState("big");
+  const [ribbonId, setRibbonId] = useState(RIBBON_COLORS[0].id);
   const [note, setNote] = useState("");
 
   const type = FLOWER_TYPES.find((t) => t.id === typeId)!;
   const petals = type.chrome ? CHROME_PETALS : PASTEL_PETALS;
   const petal = petals.find((p) => p.id === petalId) ?? petals[0];
   const stem = STEM_COLORS.find((s) => s.id === stemId)!;
-  const ribbon = RIBBONS.find((r) => r.id === ribbonId)!;
-  const price = calcTotal({ type, qty, stem, petal, ribbon });
+  const ribbon = RIBBON_COLORS.find((r) => r.id === ribbonId)!;
+  const price = calcTotal({ type, qty, stem, petal });
 
   const pickType = (id: (typeof FLOWER_TYPES)[number]["id"]) => {
     const next = FLOWER_TYPES.find((t) => t.id === id)!;
@@ -90,7 +90,7 @@ export default function BouquetBuilder() {
     qty,
     petalColor: petal.name,
     stemColor: stem.name,
-    ribbon: ribbon.name,
+    ribbon: `Warna ${ribbon.name}`,
     note,
     total: formatRupiah(price.total),
   });
@@ -173,24 +173,11 @@ export default function BouquetBuilder() {
               <Swatches label="Warna tangkai" options={STEM_COLORS} value={stemId} onChange={setStemId} />
             </Step>
 
-            <Step n={5} title="Pita & catatan">
-              <div role="radiogroup" aria-label="Pita" className="grid gap-3 sm:grid-cols-3">
-                {RIBBONS.map((r) => (
-                  <button
-                    key={r.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={r.id === ribbonId}
-                    onClick={() => setRibbonId(r.id)}
-                    className={`rounded-2xl border-2 p-3 text-left transition-colors ${
-                      r.id === ribbonId ? "border-brand bg-sky-soft" : "border-sky-soft bg-cream-light hover:bg-sky-pale"
-                    }`}
-                  >
-                    <span className="block font-display font-bold text-brand-deep">{r.name}</span>
-                    <span className="block text-sm font-extrabold text-peach-deep">{r.price === 0 ? "Gratis" : `+${formatRupiah(r.price)}`}</span>
-                  </button>
-                ))}
-              </div>
+            <Step n={5} title="Warna pita" hint={`— ${ribbon.name} (gratis)`}>
+              <Swatches label="Warna pita" options={RIBBON_COLORS} value={ribbonId} onChange={setRibbonId} />
+            </Step>
+
+            <Step n={6} title="Catatan">
               <label className="block">
                 <span className="sr-only">Catatan atau tulisan ucapan</span>
                 <input
@@ -207,7 +194,6 @@ export default function BouquetBuilder() {
             <div className="rounded-2xl bg-cream p-5">
               <dl className="space-y-1.5 text-base font-semibold text-brand-deep">
                 <div className="flex justify-between"><dt>{qty} × {formatRupiah(price.perStem)}</dt><dd>{formatRupiah(price.flowers)}</dd></div>
-                {price.ribbon > 0 && <div className="flex justify-between"><dt>{ribbon.name}</dt><dd>{formatRupiah(price.ribbon)}</dd></div>}
                 <div className="flex justify-between border-t-2 border-dashed border-brand/30 pt-2 font-display text-2xl font-extrabold">
                   <dt>Total</dt><dd className="text-peach-deep">{formatRupiah(price.total)}</dd>
                 </div>

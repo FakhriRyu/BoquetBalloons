@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import type { ColorOption, FlowerType, RibbonOption } from "@/data/builder";
+import type { ColorOption, FlowerType } from "@/data/builder";
 
 function shade(hex: string, amt: number) {
   const n = parseInt(hex.slice(1), 16);
@@ -15,7 +15,7 @@ interface Props {
   qty: number;
   petal: ColorOption;
   stem: ColorOption;
-  ribbon: RibbonOption;
+  ribbon: ColorOption;
 }
 
 const CX = 150;
@@ -56,9 +56,8 @@ function Head({ type, petal, stem, r, gid }: { type: FlowerType; petal: ColorOpt
   );
 }
 
-function Bow({ ribbon, color }: { ribbon: RibbonOption; color: string }) {
-  if (ribbon.id === "none") return null;
-  const s = ribbon.id === "big" ? 1.55 : 1;
+function Bow({ color }: { color: string }) {
+  const s = 1.4;
   const dark = shade(color, -0.18);
   const loop = (rot: number) => (
     <g transform={`rotate(${rot})`}>
@@ -99,20 +98,19 @@ export default function BouquetPreview({ type, qty, petal, stem, ribbon }: Props
           <stop offset="1" stopColor="#000" stopOpacity="0.28" />
         </linearGradient>
       </defs>
-      {/* tails below the bundle */}
-      {items.map((it, i) => (
-        <line key={`t${i}`} x1={CX} y1={BY} x2={CX - Math.sin(it.ang) * 55} y2={BY + Math.cos(it.ang) * 95} stroke={stemDark} strokeWidth={17} strokeLinecap="round" />
-      ))}
-      {items.map((it, i) => (
-        <line key={`tf${i}`} x1={CX} y1={BY} x2={CX - Math.sin(it.ang) * 55} y2={BY + Math.cos(it.ang) * 95} stroke={stem.hex} strokeWidth={13} strokeLinecap="round" style={{ transition: "stroke .3s" }} />
-      ))}
-      {/* stems */}
-      {items.map((it, i) => (
-        <line key={`s${i}`} x1={CX} y1={BY} x2={it.hx} y2={it.hy} stroke={stemDark} strokeWidth={17} strokeLinecap="round" />
-      ))}
-      {items.map((it, i) => (
-        <line key={`sf${i}`} x1={CX} y1={BY} x2={it.hx} y2={it.hy} stroke={stem.hex} strokeWidth={13} strokeLinecap="round" style={{ transition: "stroke .3s" }} />
-      ))}
+      {/* tails + stems: outline & fill drawn per stem so each stem stays distinct when overlapping */}
+      {items.map((it, i) => {
+        const tx = CX - Math.sin(it.ang) * 55;
+        const ty = BY + Math.cos(it.ang) * 95;
+        return (
+          <g key={`st${i}`} style={{ transition: "stroke .3s" }}>
+            <line x1={CX} y1={BY} x2={tx} y2={ty} stroke={stemDark} strokeWidth={15} strokeLinecap="round" />
+            <line x1={CX} y1={BY} x2={tx} y2={ty} stroke={stem.hex} strokeWidth={13} strokeLinecap="round" style={{ transition: "stroke .3s" }} />
+            <line x1={CX} y1={BY} x2={it.hx} y2={it.hy} stroke={stemDark} strokeWidth={15} strokeLinecap="round" />
+            <line x1={CX} y1={BY} x2={it.hx} y2={it.hy} stroke={stem.hex} strokeWidth={13} strokeLinecap="round" style={{ transition: "stroke .3s" }} />
+          </g>
+        );
+      })}
       {/* heads: outer first, centre on top */}
       {[...items.keys()]
         .sort((a, b) => Math.abs(b - (qty - 1) / 2) - Math.abs(a - (qty - 1) / 2))
@@ -121,7 +119,7 @@ export default function BouquetPreview({ type, qty, petal, stem, ribbon }: Props
             <Head type={type} petal={petal} stem={stem} r={r} gid={gid} />
           </g>
         ))}
-      <Bow ribbon={ribbon} color={petal.hex} />
+      <Bow color={ribbon.hex} />
     </svg>
   );
 }

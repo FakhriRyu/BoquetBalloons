@@ -18,13 +18,6 @@ export interface ColorOption {
   surcharge?: number;
 }
 
-export interface RibbonOption {
-  id: string;
-  name: string;
-  desc: string;
-  price: number;
-}
-
 export const MIN_QTY = 1;
 export const MAX_QTY = 12;
 
@@ -62,10 +55,16 @@ export const STEM_COLORS: ColorOption[] = [
   { id: "chrome-teal", name: "Teal Chrome", hex: "#3f8f8a", surcharge: 2000 },
 ];
 
-export const RIBBONS: RibbonOption[] = [
-  { id: "none", name: "Tanpa Pita", desc: "Polos saja", price: 0 },
-  { id: "small", name: "Pita Kecil", desc: "Simpul mungil", price: 3000 },
-  { id: "big", name: "Pita Besar", desc: "Pita balon besar", price: 5000 },
+// Pita gratis, satu ukuran, tinggal pilih warna.
+export const RIBBON_COLORS: ColorOption[] = [
+  { id: "pink", name: "Pink", hex: "#f3a6b8" },
+  { id: "blue", name: "Biru", hex: "#7fa6e0" },
+  { id: "white", name: "Putih", hex: "#fbfaf6", light: true },
+  { id: "lilac", name: "Lilac", hex: "#b9a0dc" },
+  { id: "butter", name: "Kuning", hex: "#f6d45e", light: true },
+  { id: "mint", name: "Hijau Mint", hex: "#9fd6a8" },
+  { id: "red", name: "Merah", hex: "#d9546a" },
+  { id: "gold", name: "Gold", hex: "#d9b04a" },
 ];
 
 export function calcTotal(opts: {
@@ -73,8 +72,7 @@ export function calcTotal(opts: {
   qty: number;
   stem: ColorOption;
   petal: ColorOption;
-  ribbon: RibbonOption;
 }) {
   const perStem = opts.type.pricePerStem + (opts.petal.surcharge ?? 0) + (opts.stem.surcharge ?? 0);
-  return { perStem, flowers: perStem * opts.qty, ribbon: opts.ribbon.price, total: perStem * opts.qty + opts.ribbon.price };
+  return { perStem, flowers: perStem * opts.qty, total: perStem * opts.qty };
 }
