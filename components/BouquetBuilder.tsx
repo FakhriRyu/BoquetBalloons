@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Minus, Plus, MessageCircle, Sparkles } from "lucide-react";
+import { Minus, Plus, MessageCircle } from "lucide-react";
 import BouquetPreview from "@/components/BouquetPreview";
 import { createWhatsAppBouquetLink } from "@/lib/whatsapp";
 import { formatRupiah } from "@/data/products";
+import { formatK } from "@/lib/format";
 import { calcTotal, type ColorOption, type FlowerType } from "@/data/builder";
 
 function Swatches({
@@ -41,6 +42,9 @@ function Swatches({
   );
 }
 
+const FIELD =
+  "w-full rounded-2xl border-2 bg-cream-light px-4 py-3 font-semibold text-brand-deep placeholder:text-brand-dark/60 focus:border-brand focus:outline-none";
+
 function Step({ n, title, children, hint }: { n: number; title: string; hint?: string; children: React.ReactNode }) {
   return (
     <section className="space-y-2.5 sm:space-y-3">
@@ -72,6 +76,10 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
   const [stemId, setStemId] = useState("");
   const [ribbonId, setRibbonId] = useState("");
   const [note, setNote] = useState("");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
 
   // Pilihan yang tersimpan bisa hilang saat admin menonaktifkannya, jadi selalu jatuh ke pilihan pertama.
   const type = flowerTypes.find((t) => t.id === typeId) ?? flowerTypes[0];
@@ -91,16 +99,19 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
     ribbon: `Warna ${ribbon.name}`,
     note,
     total: formatRupiah(price.total),
+    customerName: name,
+    address,
+    instagram,
   });
+  const nameMissing = !name.trim();
+  const addressMissing = !address.trim();
+  const formValid = !nameMissing && !addressMissing;
 
   return (
     <section id="rakit" className="scroll-mt-20 bg-sky-pale py-12 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-leaf-soft px-4 py-1 text-sm font-extrabold text-leaf-dark">
-            <Sparkles className="h-4 w-4" aria-hidden /> Rakit Sendiri
-          </span>
-          <h2 className="mt-3 text-3xl font-extrabold text-brand-deep sm:text-5xl">Bikin Bunga Balon-mu</h2>
+          <h2 className="text-3xl font-extrabold text-brand-deep sm:text-5xl">Bikin Bunga Balon-mu</h2>
           <p className="mt-2 text-base font-semibold text-brand-dark sm:text-lg">
             Pilih jenis, jumlah, dan warna. Tampilan & harga langsung berubah.
           </p>
@@ -131,23 +142,24 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
           {/* Options */}
           <div className="space-y-6 rounded-[2rem] bg-white p-4 shadow-soft sm:space-y-8 sm:p-8">
             {/* Pratinjau ringkas yang ikut menempel saat menggulir opsi, supaya perubahan langsung terlihat di HP. */}
-            <div className="sticky top-[80px] z-10 -mx-1 flex items-center gap-3 rounded-2xl border-2 border-sky-soft bg-white/95 p-2 shadow-soft backdrop-blur sm:top-[88px] sm:gap-5 sm:p-3 lg:hidden">
-              <div
-                className="aspect-[300/380] w-24 shrink-0 overflow-hidden rounded-xl transition-colors duration-300 sm:w-32"
-                style={{ backgroundColor: `${petal.hex}55` }}
-              >
-                <BouquetPreview type={type} qty={qty} petal={petal} stem={stem} ribbon={ribbon} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="font-display text-base font-extrabold leading-tight text-brand-deep sm:text-xl">
-                  {qty} tangkai · {type.name}
-                </p>
-                <p className="mt-1 text-xs font-semibold leading-snug text-brand-dark sm:text-sm">
-                  Kelopak {petal.name} · Tangkai {stem.name} · Pita {ribbon.name}
-                </p>
-                <p className="mt-1.5 font-display text-2xl font-extrabold leading-none text-peach-deep sm:text-3xl" aria-live="polite">
-                  {formatRupiah(price.total)}
-                </p>
+            <div className="sticky top-[76px] z-10 -mx-4 flex justify-center bg-white pb-3 pt-4 shadow-[0_10px_12px_-12px_rgba(36,67,94,0.45)] sm:top-[84px] sm:-mx-8 lg:hidden">
+              <div className="relative">
+                <div
+                  className="aspect-[300/380] w-40 overflow-hidden rounded-2xl border-4 border-white shadow-soft transition-colors duration-300 sm:w-48"
+                  style={{ backgroundColor: `${petal.hex}55` }}
+                >
+                  <BouquetPreview type={type} qty={qty} petal={petal} stem={stem} ribbon={ribbon} />
+                </div>
+                <div
+                  className="badge-scallop absolute -right-7 -top-2 h-[4.75rem] w-[4.75rem] rotate-6 text-center text-2xl leading-none sm:-right-8 sm:h-20 sm:w-20 sm:text-2xl"
+                  aria-live="polite"
+                  aria-label={`Total ${formatRupiah(price.total)}`}
+                >
+                  <span aria-hidden>
+                    <span className="block text-[0.65rem] font-bold opacity-90">Total</span>
+                    {formatK(price.total)}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -209,6 +221,52 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
               </label>
             </Step>
 
+            <Step n={7} title="Data pemesan">
+              <div id="data-pemesan" className="scroll-mt-40 space-y-3">
+                <label className="block">
+                  <span className="mb-1 block text-sm font-bold text-brand-deep">Nama <span className="text-peach-deep">*</span></span>
+                  <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    maxLength={60}
+                    autoComplete="name"
+                    required
+                    aria-invalid={showErrors && nameMissing}
+                    placeholder="Nama kamu"
+                    className={`${FIELD} ${showErrors && nameMissing ? "border-peach-deep" : "border-sky-soft"}`}
+                  />
+                </label>
+                <label className="block">
+                  <span className="mb-1 block text-sm font-bold text-brand-deep">Alamat <span className="text-peach-deep">*</span></span>
+                  <textarea
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    maxLength={200}
+                    rows={2}
+                    autoComplete="street-address"
+                    required
+                    aria-invalid={showErrors && addressMissing}
+                    placeholder="Alamat pengantaran / pengambilan"
+                    className={`${FIELD} ${showErrors && addressMissing ? "border-peach-deep" : "border-sky-soft"}`}
+                  />
+                </label>
+                <label className="block">
+                  <span className="mb-1 block text-sm font-bold text-brand-deep">Instagram <span className="font-semibold text-brand-dark">(opsional)</span></span>
+                  <input
+                    value={instagram}
+                    onChange={(e) => setInstagram(e.target.value)}
+                    maxLength={40}
+                    autoCapitalize="none"
+                    placeholder="@username"
+                    className={`${FIELD} border-sky-soft`}
+                  />
+                </label>
+                {showErrors && !formValid && (
+                  <p role="alert" className="text-sm font-bold text-peach-deep">Nama dan alamat wajib diisi dulu ya.</p>
+                )}
+              </div>
+            </Step>
+
             {/* Summary */}
             <div className="rounded-2xl bg-cream p-4 sm:p-5">
               <dl className="space-y-1.5 text-base font-semibold text-brand-deep">
@@ -223,7 +281,18 @@ export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals
 
         {/* CTA (sticky on mobile) */}
         <div className="sticky bottom-3 z-20 mt-6 flex justify-center sm:mt-8">
-          <a href={link} target="_blank" rel="noopener noreferrer" className="btn-peach w-full max-w-md !text-base sm:!text-lg">
+          <a
+            href={formValid ? link : "#data-pemesan"}
+            {...(formValid ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            onClick={(e) => {
+              if (!formValid) {
+                e.preventDefault();
+                setShowErrors(true);
+                document.getElementById("data-pemesan")?.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }}
+            className="btn-peach w-full max-w-md !text-base sm:!text-lg"
+          >
             <MessageCircle className="h-5 w-5" aria-hidden />
             Pesan via WhatsApp · {formatRupiah(price.total)}
           </a>
