@@ -3,13 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ExternalLink, Flower2, LayoutDashboard, LogOut, type LucideIcon } from "lucide-react";
+import { Calculator, ClipboardList, ExternalLink, Flower2, LayoutDashboard, LogOut, Wallet, type LucideIcon } from "lucide-react";
 import { logout } from "@/app/admin/login/actions";
 
-// Bagian baru ditambahkan di sini seiring tahap pengerjaan.
 const NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/pesanan", label: "Pesanan", icon: ClipboardList },
   { href: "/admin/produk", label: "Produk", icon: Flower2 },
+  { href: "/admin/hpp", label: "HPP", icon: Calculator },
+  { href: "/admin/keuangan", label: "Keuangan", icon: Wallet },
 ];
 
 const isActive = (pathname: string, href: string) => (href === "/admin" ? pathname === href : pathname.startsWith(href));
