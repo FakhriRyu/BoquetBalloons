@@ -51,21 +51,26 @@ export default function ColorsTab({ colors }: { colors: ColorRow[] }) {
 
             <ul className="mt-3 divide-y-2 divide-sky-pale">
               {list.map((c) => (
-                <li key={c.id} className="py-3">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`h-10 w-10 shrink-0 rounded-full border-2 shadow-soft ${c.light ? "border-brand/40" : "border-white"} ${c.isReady ? "" : "opacity-40"}`}
-                      style={{ backgroundColor: c.hex }}
-                      aria-hidden
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className={`truncate font-bold ${c.isReady ? "text-brand-deep" : "text-brand-dark line-through"}`}>{c.name}</p>
-                      {c.surcharge > 0 && <Badge tone="peach">+{formatRupiah(c.surcharge)}/tangkai</Badge>}
-                    </div>
+                <li key={c.id} className="relative py-2">
+                  {/* Tombol Ready/Habis di luar <summary> supaya mengetuknya tidak membuka form ubah. */}
+                  <div className="absolute right-0 top-2">
                     <ToggleButton action={setColorReady.bind(null, c.id, !c.isReady)} on={c.isReady} onLabel="Ready" offLabel="Habis" label={c.name} />
                   </div>
-                  <details className="mt-1">
-                    <summary className="inline-flex min-h-9 cursor-pointer items-center text-sm font-bold text-brand hover:text-brand-dark">Ubah</summary>
+                  <details>
+                    <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 pr-28 [&::-webkit-details-marker]:hidden">
+                      <span
+                        className={`h-10 w-10 shrink-0 rounded-full border-2 shadow-soft ${c.light ? "border-brand/40" : "border-white"} ${c.isReady ? "" : "opacity-40"}`}
+                        style={{ backgroundColor: c.hex }}
+                        aria-hidden
+                      />
+                      <span className="min-w-0">
+                        <span className={`block truncate font-bold ${c.isReady ? "text-brand-deep" : "text-brand-dark line-through"}`}>{c.name}</span>
+                        <span className="flex flex-wrap items-center gap-2 text-xs font-bold text-brand">
+                          Ubah
+                          {c.surcharge > 0 && <Badge tone="peach">+{formatRupiah(c.surcharge)}/tangkai</Badge>}
+                        </span>
+                      </span>
+                    </summary>
                     <ActionForm action={saveColor} className="mt-2 rounded-xl bg-sky-pale p-3">
                       <Fields group={g.id} hasSurcharge={g.hasSurcharge} color={c} />
                       <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
