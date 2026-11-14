@@ -5,16 +5,7 @@ import { Minus, Plus, MessageCircle, Sparkles } from "lucide-react";
 import BouquetPreview from "@/components/BouquetPreview";
 import { createWhatsAppBouquetLink } from "@/lib/whatsapp";
 import { formatRupiah } from "@/data/products";
-import {
-  CHROME_PETALS,
-  FLOWER_TYPES,
-  MAX_QTY,
-  MIN_QTY,
-  PASTEL_PETALS,
-  RIBBON_COLORS,
-  STEM_COLORS,
-  calcTotal,
-} from "@/data/builder";
+import { calcTotal, type ColorOption, type FlowerType } from "@/data/builder";
 
 function Swatches({
   label,
@@ -63,27 +54,34 @@ function Step({ n, title, children, hint }: { n: number; title: string; hint?: s
   );
 }
 
-export default function BouquetBuilder() {
-  const [typeId, setTypeId] = useState(FLOWER_TYPES[1].id);
-  const [qty, setQty] = useState(5);
-  const [petalId, setPetalId] = useState(PASTEL_PETALS[0].id);
-  const [stemId, setStemId] = useState(STEM_COLORS[0].id);
-  const [ribbonId, setRibbonId] = useState(RIBBON_COLORS[0].id);
+export interface BouquetBuilderProps {
+  flowerTypes: FlowerType[];
+  pastelPetals: ColorOption[];
+  chromePetals: ColorOption[];
+  stemColors: ColorOption[];
+  ribbonColors: ColorOption[];
+  minQty: number;
+  maxQty: number;
+}
+
+/** Data datang dari admin (lib/storefront.ts). Pemanggil menjamin tiap daftar tidak kosong (canBuildBouquet). */
+export default function BouquetBuilder({ flowerTypes, pastelPetals, chromePetals, stemColors, ribbonColors, minQty, maxQty }: BouquetBuilderProps) {
+  const [typeId, setTypeId] = useState((flowerTypes[1] ?? flowerTypes[0]).id);
+  const [qty, setQty] = useState(Math.min(maxQty, Math.max(minQty, 5)));
+  const [petalId, setPetalId] = useState("");
+  const [stemId, setStemId] = useState("");
+  const [ribbonId, setRibbonId] = useState("");
   const [note, setNote] = useState("");
 
-  const type = FLOWER_TYPES.find((t) => t.id === typeId)!;
-  const petals = type.chrome ? CHROME_PETALS : PASTEL_PETALS;
+  // Pilihan yang tersimpan bisa hilang saat admin menonaktifkannya, jadi selalu jatuh ke pilihan pertama.
+  const type = flowerTypes.find((t) => t.id === typeId) ?? flowerTypes[0];
+  const petals = type.chrome ? chromePetals : pastelPetals;
   const petal = petals.find((p) => p.id === petalId) ?? petals[0];
-  const stem = STEM_COLORS.find((s) => s.id === stemId)!;
-  const ribbon = RIBBON_COLORS.find((r) => r.id === ribbonId)!;
+  const stem = stemColors.find((s) => s.id === stemId) ?? stemColors[0];
+  const ribbon = ribbonColors.find((r) => r.id === ribbonId) ?? ribbonColors[0];
   const price = calcTotal({ type, qty, stem, petal });
 
-  const pickType = (id: (typeof FLOWER_TYPES)[number]["id"]) => {
-    const next = FLOWER_TYPES.find((t) => t.id === id)!;
-    if (next.chrome !== type.chrome) setPetalId((next.chrome ? CHROME_PETALS : PASTEL_PETALS)[0].id);
-    setTypeId(id);
-  };
-  const setQ = (n: number) => setQty(Math.min(MAX_QTY, Math.max(MIN_QTY, n)));
+  const setQ = (n: number) => setQty(Math.min(maxQty, Math.max(minQty, n)));
 
   const link = createWhatsAppBouquetLink({
     type: type.name,
@@ -134,15 +132,15 @@ export default function BouquetBuilder() {
           <div className="space-y-8 rounded-[2rem] bg-white p-6 shadow-soft sm:p-8">
             <Step n={1} title="Jenis bunga">
               <div role="radiogroup" aria-label="Jenis bunga" className="grid gap-3 sm:grid-cols-3">
-                {FLOWER_TYPES.map((t) => (
+                {flowerTypes.map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     role="radio"
-                    aria-checked={t.id === typeId}
-                    onClick={() => pickType(t.id)}
+                    aria-checked={t.id === type.id}
+                    onClick={() => setTypeId(t.id)}
                     className={`rounded-2xl border-2 p-3 text-left transition-colors ${
-                      t.id === typeId ? "border-brand bg-sky-soft" : "border-sky-soft bg-cream-light hover:bg-sky-pale"
+                      t.id === type.id ? "border-brand bg-sky-soft" : "border-sky-soft bg-cream-light hover:bg-sky-pale"
                     }`}
                   >
                     <span className="block font-display text-base font-bold leading-tight text-brand-deep">{t.name}</span>
@@ -153,13 +151,13 @@ export default function BouquetBuilder() {
               </div>
             </Step>
 
-            <Step n={2} title="Jumlah tangkai" hint={`(${MIN_QTY}–${MAX_QTY})`}>
+            <Step n={2} title="Jumlah tangkai" hint={`(${minQty}–${maxQty})`}>
               <div className="inline-flex items-center gap-4 rounded-full bg-sky-pale p-1.5">
-                <button type="button" aria-label="Kurangi jumlah" disabled={qty <= MIN_QTY} onClick={() => setQ(qty - 1)} className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-deep shadow-soft disabled:opacity-40">
+                <button type="button" aria-label="Kurangi jumlah" disabled={qty <= minQty} onClick={() => setQ(qty - 1)} className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-deep shadow-soft disabled:opacity-40">
                   <Minus className="h-5 w-5" />
                 </button>
                 <span className="w-10 text-center font-display text-3xl font-extrabold text-brand-deep" aria-live="polite">{qty}</span>
-                <button type="button" aria-label="Tambah jumlah" disabled={qty >= MAX_QTY} onClick={() => setQ(qty + 1)} className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-white shadow-soft disabled:opacity-40">
+                <button type="button" aria-label="Tambah jumlah" disabled={qty >= maxQty} onClick={() => setQ(qty + 1)} className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-white shadow-soft disabled:opacity-40">
                   <Plus className="h-5 w-5" />
                 </button>
               </div>
@@ -170,11 +168,11 @@ export default function BouquetBuilder() {
             </Step>
 
             <Step n={4} title="Warna tangkai" hint={`— ${stem.name}`}>
-              <Swatches label="Warna tangkai" options={STEM_COLORS} value={stemId} onChange={setStemId} />
+              <Swatches label="Warna tangkai" options={stemColors} value={stem.id} onChange={setStemId} />
             </Step>
 
             <Step n={5} title="Warna pita" hint={`— ${ribbon.name} (gratis)`}>
-              <Swatches label="Warna pita" options={RIBBON_COLORS} value={ribbonId} onChange={setRibbonId} />
+              <Swatches label="Warna pita" options={ribbonColors} value={ribbon.id} onChange={setRibbonId} />
             </Step>
 
             <Step n={6} title="Catatan">
