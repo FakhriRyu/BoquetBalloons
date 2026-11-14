@@ -1,38 +1,36 @@
-/**
- * Helper to build formatted WhatsApp URLs
- */
+export const STORE_NAME = "Ada Balon Bengkulu";
+export const INSTAGRAM_HANDLE = "adabalonbengkulu";
+export const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM_HANDLE}`;
+export const WHATSAPP_DISPLAY = "0823-7312-8064";
+
 export function getWhatsAppNumber(): string {
-  const envNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281234567890";
+  const envNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282373128064";
   return envNumber.replace(/[^0-9]/g, "");
 }
 
+function wa(message: string) {
+  return `https://wa.me/${getWhatsAppNumber()}?text=${encodeURIComponent(message)}`;
+}
+
 export function createWhatsAppOrderLink(productName: string, price: string): string {
-  const phone = getWhatsAppNumber();
-  const message = `Halo Pastel Bloom! 🌸\n\nSaya ingin memesan buket balon:\n✨ *Produk:* ${productName}\n💰 *Harga:* ${price}\n\nApakah slot tanggal acara saya masih tersedia? Terima kasih!`;
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  return wa(`Halo ${STORE_NAME}! 🌼\n\nSaya mau pesan:\n🌸 *${productName}*\n💰 Harga: ${price}\n\nApakah masih tersedia? Terima kasih!`);
 }
 
-export function createWhatsAppConsultationLink(topic?: string): string {
-  const phone = getWhatsAppNumber();
-  const message = topic
-    ? `Halo Pastel Bloom! 🌸\n\nSaya ingin konsultasi mengenai: *${topic}*. Apakah bisa dibantu?`
-    : `Halo Pastel Bloom! 🌸\n\nSaya ingin konsultasi kado buket balon untuk momen spesial saya. Bisa minta info ketersediaan slot dan rekomendasinya?`;
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+export function createWhatsAppConsultationLink(): string {
+  return wa(`Halo ${STORE_NAME}! 🌼\n\nSaya mau tanya-tanya soal buket bunga balon. Bisa dibantu?`);
 }
 
-export function createWhatsAppCustomCalculatorLink(details: {
-  size: string;
-  balloonType: string;
-  flowers: string;
-  accessories: string[];
-  customText: string;
-  estimatedPrice: string;
+export function createWhatsAppBouquetLink(d: {
+  type: string;
+  qty: number;
+  petalColor: string;
+  stemColor: string;
+  ribbon: string;
+  note: string;
+  total: string;
 }): string {
-  const phone = getWhatsAppNumber();
-  const accList = details.accessories.length > 0 ? details.accessories.join(", ") : "Tidak ada";
-  const customText = details.customText.trim() ? `"${details.customText.trim()}"` : "(Belum diisi/Konsultasi)";
-
-  const message = `Halo Pastel Bloom! 🌸\n\nSaya sudah mencoba *Custom Order Calculator* di website dan ingin memesan rangkaian ini:\n\n🎈 *Ukuran Balon:* ${details.size}\n🔮 *Jenis Balon:* ${details.balloonType}\n💐 *Rangkaian Bunga:* ${details.flowers}\n🎀 *Aksesoris Tambahan:* ${accList}\n✍️ *Tulisan di Balon:* ${customText}\n\n💵 *Estimasi Total:* ${details.estimatedPrice}\n\nMohon info ketersediaan slot tanggal acara dan detail pemesanannya ya, terima kasih!`;
-
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  const note = d.note.trim() ? `"${d.note.trim()}"` : "-";
+  return wa(
+    `Halo ${STORE_NAME}! 🌼\n\nSaya sudah rakit bunga balon di website dan mau pesan:\n\n🌸 *Jenis bunga:* ${d.type}\n🔢 *Jumlah:* ${d.qty} tangkai\n🎨 *Warna kelopak:* ${d.petalColor}\n🌿 *Warna tangkai:* ${d.stemColor}\n🎀 *Pita:* ${d.ribbon}\n📝 *Catatan:* ${note}\n\n💵 *Total:* ${d.total}\n\nMohon info ketersediaan & cara pembayarannya ya. Terima kasih!`
+  );
 }
