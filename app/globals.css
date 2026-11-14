@@ -96,12 +96,12 @@
   }
   .btn-peach:active {
     transform: translateY(4px);
-    box-shadow: 0 2px 0 -2px #d9806a;
+    box-shadow: 0 2px 0 0 #c4624a;
   }
 
   .btn-blue {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 font-display text-lg font-extrabold text-white transition-colors;
-    box-shadow: 0 8px 0 -2px #2f6590;
+    box-shadow: 0 6px 0 0 #2f6590;
   }
   .btn-blue:hover {
     @apply bg-brand-dark;

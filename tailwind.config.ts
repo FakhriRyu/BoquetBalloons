@@ -41,7 +41,7 @@ const config: Config = {
       boxShadow: {
         polaroid: "0 18px 40px -16px rgba(36, 67, 94, 0.35), 0 2px 0 0 rgba(255,255,255,0.9) inset",
         soft: "0 10px 30px -12px rgba(36, 67, 94, 0.25)",
-        peach: "0 8px 0 -2px #d9806a, 0 14px 24px -8px rgba(217, 128, 106, 0.55)",
+        peach: "0 6px 0 0 #c4624a, 0 12px 20px -6px rgba(169, 80, 59, 0.45)",
       },
       keyframes: {
         floaty: {
