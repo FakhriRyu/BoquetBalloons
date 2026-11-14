@@ -1,80 +1,27 @@
-import React from "react";
-import { MousePointerClick, MessageSquareText, Truck } from "lucide-react";
+import { MousePointerClick, MessageCircle, Gift } from "lucide-react";
+
+const STEPS = [
+  { icon: MousePointerClick, title: "Pilih & rakit", text: "Pilih dari katalog atau rakit bunga sendiri sampai harganya pas." },
+  { icon: MessageCircle, title: "Kirim ke WhatsApp", text: "Tekan tombol pesan, detail pilihanmu terisi otomatis di chat." },
+  { icon: Gift, title: "Konfirmasi & terima", text: "Kami konfirmasi ketersediaan dan pembayaran, lalu bunga siap diambil/dikirim." },
+];
 
 export default function HowToOrder() {
-  const steps = [
-    {
-      num: "01",
-      icon: MousePointerClick,
-      title: "Pilih Model atau Request Custom",
-      description:
-        "Pilih buket favorit dari katalog atau gunakan Custom Order Calculator untuk menyesuaikan warna, ukuran balon, dan tema acara.",
-    },
-    {
-      num: "02",
-      icon: MessageSquareText,
-      title: "Tentukan Teks Ucapan & Tanggal",
-      description:
-        "Kirim detail nama/gelar untuk tulisan di balon, pesan kartu ucapan, serta tanggal & waktu pengiriman yang diinginkan ke admin WhatsApp.",
-    },
-    {
-      num: "03",
-      icon: Truck,
-      title: "Dirangkai & Dikirim Aman",
-      description:
-        "Florist kami merangkai kado spesialmu, memfotonya sebelum dikirim, dan mengantarkannya dengan stand box proteksi khusus via kurir instan.",
-    },
-  ];
-
   return (
-    <section id="cara-pesan" className="w-full py-20 bg-surface-container-lowest">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <span className="text-xs uppercase font-extrabold tracking-widest text-primary bg-primary-fixed px-3 py-1 rounded-full">
-            Alur Pemesanan
-          </span>
-          <h2 className="font-headline text-2xl sm:text-3xl lg:text-4xl font-extrabold text-on-surface">
-            Cara Pesan Buket Balon dalam 3 Langkah
-          </h2>
-          <p className="font-body text-sm sm:text-base text-on-surface-variant">
-            Pemesanan kado tanpa ribet, cepat, dan transparan langsung ke florist atelier.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={idx}
-                className="relative bg-surface p-8 rounded-3xl border border-outline-variant/60 shadow-card flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="font-headline font-black text-3xl text-primary/30">
-                      {step.num}
-                    </span>
-                    <div className="w-12 h-12 rounded-2xl bg-primary-fixed text-primary flex items-center justify-center">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                  </div>
-
-                  <h3 className="font-headline font-bold text-lg text-on-surface mb-3">
-                    {step.title}
-                  </h3>
-
-                  <p className="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-outline-variant/40 flex items-center text-[11px] font-bold text-primary">
-                  <span>Langkah {idx + 1} dari 3</span>
-                </div>
+    <section id="cara-pesan" className="scroll-mt-20 bg-gingham py-16 sm:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <h2 className="text-sticker mb-10 text-center text-5xl font-extrabold">Cara Pesan</h2>
+        <ol className="grid gap-6 md:grid-cols-3">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="polaroid p-6 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-sky-soft text-brand-dark">
+                <s.icon className="h-8 w-8" aria-hidden />
               </div>
-            );
-          })}
-        </div>
+              <h3 className="mt-4 text-2xl font-extrabold text-brand-deep">{i + 1}. {s.title}</h3>
+              <p className="mt-1 font-semibold text-brand-dark">{s.text}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

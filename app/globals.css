@@ -8,35 +8,109 @@
     color-scheme: light;
   }
   body {
-    @apply bg-background text-on-surface font-body antialiased;
+    @apply bg-cream-light text-ink font-sans antialiased;
     margin: 0;
-    padding: 0;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+  :focus-visible {
+    outline: 3px solid #24435e;
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 }
 
-/* Custom Scrollbar */
+@layer components {
+  /* Gingham / checkered background like the Instagram catalog */
+  .bg-gingham {
+    background-color: #fff;
+    background-image:
+      linear-gradient(90deg, rgba(143, 203, 227, 0.55) 50%, transparent 50%),
+      linear-gradient(rgba(143, 203, 227, 0.55) 50%, transparent 50%);
+    background-size: 56px 56px;
+  }
+  .bg-gingham-pink {
+    background-image:
+      linear-gradient(90deg, rgba(244, 184, 205, 0.5) 50%, transparent 50%),
+      linear-gradient(rgba(244, 184, 205, 0.5) 50%, transparent 50%);
+  }
+  .bg-gingham-teal {
+    background-image:
+      linear-gradient(90deg, rgba(124, 187, 180, 0.5) 50%, transparent 50%),
+      linear-gradient(rgba(124, 187, 180, 0.5) 50%, transparent 50%);
+  }
+
+  /* White polaroid card */
+  .polaroid {
+    @apply bg-cream-light rounded-[2rem] shadow-polaroid border-4 border-white;
+  }
+
+  /* Scalloped price badge */
+  .badge-scallop {
+    @apply bg-peach text-white font-display font-extrabold flex items-center justify-center;
+    clip-path: polygon(
+      50% 0%, 59% 4%, 69% 2%, 76% 9%, 86% 9%, 90% 18%, 98% 22%, 97% 32%, 100% 41%,
+      95% 50%, 100% 59%, 97% 68%, 98% 78%, 90% 82%, 86% 91%, 76% 91%, 69% 98%, 59% 96%,
+      50% 100%, 41% 96%, 31% 98%, 24% 91%, 14% 91%, 10% 82%, 2% 78%, 3% 68%, 0% 59%,
+      5% 50%, 0% 41%, 3% 32%, 2% 22%, 10% 18%, 14% 9%, 24% 9%, 31% 2%, 41% 4%
+    );
+    text-shadow: 0 2px 0 rgba(169, 80, 59, 0.35);
+  }
+
+  /* Chunky peach button */
+  .btn-peach {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-peach px-7 py-3.5 font-display text-lg font-extrabold text-white shadow-peach transition-transform duration-150;
+    text-shadow: 0 2px 0 rgba(169, 80, 59, 0.35);
+  }
+  .btn-peach:hover {
+    transform: translateY(-2px);
+  }
+  .btn-peach:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 -2px #d9806a;
+  }
+
+  .btn-blue {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 font-display text-lg font-extrabold text-white transition-colors;
+    box-shadow: 0 8px 0 -2px #2f6590;
+  }
+  .btn-blue:hover {
+    @apply bg-brand-dark;
+  }
+
+  /* Cream text with blue outline, like the logo wordmark */
+  .text-sticker {
+    color: #f4efe3;
+    -webkit-text-stroke: 7px #5f9ac4;
+    paint-order: stroke fill;
+    text-shadow: 0 6px 0 #2f6590;
+  }
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #fbf8fc;
+  background: #eaf5fc;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #dac0c9;
+  background: #8fcbe3;
   border-radius: 9999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #a43073;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  background: #5f9ac4;
 }

@@ -1,71 +1,59 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 
-const montserrat = Montserrat({
+const baloo = Baloo_2({
   subsets: ["latin"],
-  variable: "--font-montserrat",
+  variable: "--font-baloo",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["600", "700", "800"],
 });
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  variable: "--font-nunito",
+  display: "swap",
+  weight: ["400", "600", "700", "800"],
+});
+
+const TITLE = "Ada Balon Bengkulu | Buket Bunga Balon Handmade";
+const DESCRIPTION =
+  "Buket bunga dari balon handmade di Bengkulu. Pilih jenis bunga, jumlah, warna kelopak & tangkai, lihat harganya langsung, lalu pesan via WhatsApp. Mulai Rp 15.000.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://buketbalon.vercel.app"),
-  title: "Pastel Bloom Atelier | Handcrafted Floral & Balloon E-Commerce",
-  description:
-    "Rangkaian buket balon estetik dan bunga segar premium tahan 3-6 bulan. Same day delivery Jabodetabek, bebas custom tulisan nama & kartu ucapan.",
+  title: TITLE,
+  description: DESCRIPTION,
   keywords: [
-    "Pastel Bloom",
-    "Buket Balon",
-    "Buket Balon Jakarta",
-    "Hot Air Balloon Bouquet",
-    "Kado Wisuda",
-    "Kado Anniversary",
-    "Florist Balon Jakarta",
+    "Ada Balon Bengkulu",
+    "buket balon Bengkulu",
+    "bunga balon",
+    "balon pentil",
+    "kado bunga balon",
+    "adabalonbengkulu",
   ],
-  authors: [{ name: "Pastel Bloom Atelier" }],
+  authors: [{ name: "Ada Balon Bengkulu" }],
   openGraph: {
-    title: "Pastel Bloom Atelier | Handcrafted Floral & Balloon E-Commerce",
-    description:
-      "Say It Better With Balloons & Flowers. Rangkaian buket balon estetik dan bunga segar premium tahan 3-6 bulan. Same Day Delivery Jabodetabek.",
+    title: TITLE,
+    description: DESCRIPTION,
     url: "https://buketbalon.vercel.app",
-    siteName: "Pastel Bloom Atelier",
-    images: [
-      {
-        url: "/images/hero-main.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Pastel Bloom Handcrafted Bouquet",
-      },
-    ],
+    siteName: "Ada Balon Bengkulu",
+    images: [{ url: "/images/catalog-20k.jpg", width: 900, height: 1125, alt: "Buket bunga balon Ada Balon Bengkulu" }],
     locale: "id_ID",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pastel Bloom Atelier | Handcrafted Floral & Balloon E-Commerce",
-    description:
-      "Buket balon estetik tahan 3-6 bulan. Same Day Delivery Jabodetabek. Free custom lettering.",
-    images: ["/images/hero-main.jpg"],
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/images/catalog-20k.jpg"],
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`light ${montserrat.variable}`}>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-        />
-      </head>
-      <body className="bg-surface font-sans text-on-surface min-h-screen flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed">
-        {children}
-      </body>
+    <html lang="id" className={`${baloo.variable} ${nunito.variable}`}>
+      <body className="min-h-screen flex flex-col selection:bg-sky selection:text-brand-deep">{children}</body>
     </html>
   );
 }
