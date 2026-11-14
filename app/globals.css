@@ -114,3 +114,12 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #5f9ac4;
 }
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
