@@ -33,7 +33,7 @@ function Head({ type, petal, stem, r, gid }: { type: FlowerType; petal: ColorOpt
         return (
           <g key={i} style={{ transition: "all .3s" }}>
             <circle cx={x} cy={y} r={r * 0.62} fill={petal.hex} stroke={dark} strokeWidth={1.2} />
-            {type.id === "curly" && (
+            {type.style === "curly" && (
               <path
                 d={`M${x - r * 0.28} ${y - r * 0.05} q${r * 0.28} ${r * 0.42} ${r * 0.56} 0`}
                 fill="none"
@@ -42,7 +42,7 @@ function Head({ type, petal, stem, r, gid }: { type: FlowerType; petal: ColorOpt
                 strokeLinecap="round"
               />
             )}
-            {type.id === "simple" && (
+            {type.style === "simple" && (
               <path d={`M${x * 0.25} ${y * 0.25} L${x * 0.85} ${y * 0.85}`} stroke={dark} strokeWidth={1.8} strokeLinecap="round" opacity={0.7} />
             )}
             {type.chrome && <circle cx={x} cy={y} r={r * 0.62} fill={`url(#${gid})`} />}

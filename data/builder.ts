@@ -1,10 +1,16 @@
-// Semua harga & pilihan pemilih bunga ada di file ini. Ubah di sini saja.
+// Data awal perakit bunga. Setelah database terhubung, data ini hanya dipakai sebagai seed
+// (npm run db:seed) dan cadangan saat DATABASE_URL belum diset; harga diubah lewat /admin.
+
+export type PetalStyle = "simple" | "curly" | "plain";
 
 export interface FlowerType {
-  id: "simple" | "curly" | "chrome";
+  id: string;
   name: string;
   desc: string;
   pricePerStem: number;
+  /** bentuk garis kelopak di pratinjau */
+  style: PetalStyle;
+  /** true = memakai palet warna chrome + kilau metalik */
   chrome: boolean;
 }
 
@@ -22,9 +28,9 @@ export const MIN_QTY = 1;
 export const MAX_QTY = 12;
 
 export const FLOWER_TYPES: FlowerType[] = [
-  { id: "simple", name: "Kelopak Simple", desc: "Manis & ringan", pricePerStem: 5000, chrome: false },
-  { id: "curly", name: "Kelopak Keriting", desc: "Lebih tebal & penuh", pricePerStem: 20000, chrome: false },
-  { id: "chrome", name: "Chrome Premium", desc: "Kilau metalik mewah", pricePerStem: 30000, chrome: true },
+  { id: "simple", name: "Kelopak Simple", desc: "Manis & ringan", pricePerStem: 5000, style: "simple", chrome: false },
+  { id: "curly", name: "Kelopak Keriting", desc: "Lebih tebal & penuh", pricePerStem: 20000, style: "curly", chrome: false },
+  { id: "chrome", name: "Chrome Premium", desc: "Kilau metalik mewah", pricePerStem: 30000, style: "plain", chrome: true },
 ];
 
 export const PASTEL_PETALS: ColorOption[] = [
