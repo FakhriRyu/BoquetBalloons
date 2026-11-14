@@ -42,15 +42,16 @@ export default function Hero({ minStemPrice, minProductPrice }: { minStemPrice: 
             <a href="#rakit" className="btn-peach !px-4 !text-base sm:!px-7 sm:!text-lg">Rakit Bunga-mu</a>
             <a href="#katalog" className="btn-blue !px-4 !text-base sm:!px-7 sm:!text-lg">Lihat Katalog</a>
           </div>
+
         </div>
 
-        <div className="relative mx-auto w-full max-w-[15rem] sm:max-w-sm">
-          <div className="polaroid animate-floaty p-2.5 sm:p-3">
-            <Image src="/images/catalog-20k.jpg" alt="Bunga balon biru dengan pita besar" width={900} height={1125} priority sizes="(max-width:640px) 240px, 380px" className="rounded-3xl" />
+        <div className="relative mx-auto hidden w-full max-w-sm md:block">
+          <div className="polaroid animate-floaty p-3">
+            <Image src="/images/catalog-20k.jpg" alt="Bunga balon biru dengan pita besar" width={900} height={1125} priority sizes="380px" className="rounded-3xl" />
           </div>
           {minProductPrice !== null && (
-            <div className="badge-scallop absolute -right-6 -top-4 h-20 w-20 rotate-6 text-center text-lg leading-none sm:-right-4 sm:-top-6 sm:h-28 sm:w-28 sm:text-2xl">
-              <span><span className="block text-[0.65rem] font-bold sm:text-xs">Mulai</span>{formatK(minProductPrice)}</span>
+            <div className="badge-scallop absolute -right-4 -top-6 h-28 w-28 rotate-6 text-center text-2xl leading-none">
+              <span><span className="block text-xs font-bold">Mulai</span>{formatK(minProductPrice)}</span>
             </div>
           )}
         </div>
